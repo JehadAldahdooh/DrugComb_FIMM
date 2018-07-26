@@ -1,0 +1,20 @@
+{
+  "name": "@vaadin/vaadin-demo-helpers",
+  "version": "2.0.0-alpha2",
+  "description": "Helper components for showing Vaadin Element demos",
+  "main": "vaadin-component-demo.html",
+  "repository": "vaadin/vaadin-demo-helpers",
+  "keywords": [
+    "Vaadin",
+    "icons",
+    "web-components",
+    "web-component",
+    "polymer"
+  ],
+  "author": "Vaadin Ltd",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vaadin/vaadin-demo-helpers/issues"
+  },
+  "homepage": "https://github.com/vaadin/vaadin-demo-helpers"
+}

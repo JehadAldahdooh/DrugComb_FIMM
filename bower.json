@@ -1,0 +1,23 @@
+{
+  "name": "elementary-school-008",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Marcus Hellberg <marcus@vaadin.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vaadin-grid": "^1.0.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.1.1"
+  }
+}

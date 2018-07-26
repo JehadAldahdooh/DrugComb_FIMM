@@ -1,0 +1,31 @@
+{
+  "name": "vaadin-demo-helpers",
+  "main": [
+    "vaadin-demo-snippet.html",
+    "vaadin-component-demo.html"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.1.1",
+    "marked-element": "PolymerElements/marked-element#^2.2.0",
+    "prism-element": "PolymerElements/prism-highlighter#^2.0.1",
+    "app-route": "PolymerElements/app-route#^2.0.2",
+    "iron-selector": "PolymerElements/iron-selector#^2.0.0"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0"
+  },
+  "homepage": "https://github.com/vaadin/vaadin-demo-helpers",
+  "version": "2.0.0-alpha2",
+  "_release": "2.0.0-alpha2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.0-alpha2",
+    "commit": "b81d323c18f8e061e92b2d5edecb10dcb1eced72"
+  },
+  "_source": "https://github.com/vaadin/vaadin-demo-helpers.git",
+  "_target": "^2.0.0-alpha2",
+  "_originalSource": "vaadin/vaadin-demo-helpers"
+}

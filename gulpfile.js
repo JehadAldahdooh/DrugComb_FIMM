@@ -8,7 +8,7 @@ gulp.task('serve', function() {
       routes: {
         '/bower_components': 'bower_components'
       }
-    }, port: 11203 //change the default port fimm server
+    }//change the default port fimm server
   });
 
   gulp.watch('app/recipe-app.html').on('change', browserSync.reload);

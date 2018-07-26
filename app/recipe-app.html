@@ -91,60 +91,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
     </style>
 
-    <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route
-        route="{{_route}}"
-        pattern="/:page"
-        data="{{_pageData}}"
-        tail="{{_subRoute}}"></app-route>
     
 
-    <app-drawer-layout responsive-width="1280px">
-
-      <!-- nav panel -->
-      <app-drawer id="drawer" swipe-open slot="drawer">
-
-        <app-header-layout has-scrolling-region>
-
-          <app-header fixed slot="header">
-		  <!--
-            <div class="avatar-container">
-             <div class="image"></div> 
-            </div>
-            <div class="contact-info">
-              <div class="name"></div>
-              <div class="email"></div>
-            </div>
-			-->
-          </app-header>
-
-          <!-- nav menu -->
-          <!-- Two way binding to the selected property has been removed due to polymer/issues/4405 -->
-          
-		  
-		  <!--------------------------------------------------------------------------->
-		  <!-- app values : list items can be used -->
-		  <paper-listbox
-              selected="[[_pageData.page]]"
-              attr-for-selected="name"
-              on-iron-activate="_drawerSelected">
-            <paper-item name="home">
-              <a href="#/home" name="name">Home</a>
-            </paper-item>
-            <paper-item name="experimental">
-              <a href="#/experimental" name="name">experimental</a>
-            </paper-item>
-          </paper-listbox>
-		 <!--------------------------------------------------------------------------->
-        </app-header-layout>
-      </app-drawer>
-
-	  
-	  [[_selectedPage]]
-	  
-	  
-      <!-- list/detail pages -->
-      <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
 
         <recipe-list name="home">
           <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
@@ -152,14 +100,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 		
 		
-        <exper-list name="experimental" >
-          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-        </exper-list>
-
-
-      </iron-pages>
-
-    </app-drawer-layout>
 
   </template>
 
@@ -198,27 +138,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (!this.$.drawer.persistent)
 
           this.$.drawer.close();
-      },
+      }
 
      
-      _pageDataChanged: function(pageData, oldPageData) {
-        var map = this._scrollPositionMap;
-          //  this.set('_route.path', '/'+this._selectedPage);
-		  
-        if (oldPageData != null && oldPageData.page != null) {
-          map[oldPageData.page] = window.pageYOffset;
-		  
-        }
-		
-        this._selectedPage = pageData.page;
-        if (map[pageData.page] != null) {
-
-          Polymer.AppLayout.scroll({top: map[pageData.page], behavior: 'silent'});
-        } else if (this.isAttached) {
-		console.log("not null");
-          Polymer.AppLayout.scroll({top: 0, behavior: 'silent'});
-        }
-      }
+     
 
     });
   </script>

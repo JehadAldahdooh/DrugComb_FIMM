@@ -30,6 +30,7 @@
 	
 	
 	 <style type="custom">
+	 
     app-header {
       color: #fff;
       background-color: #00AA8D;
@@ -37,6 +38,14 @@
     app-toolbar {
       height: 120px;
     }
+	
+	  #pages {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 20px;
+              }
+			  
+			  
     [condensed-title] {
       position: absolute;
       top: 0;
@@ -216,6 +225,7 @@
     width: 100%; /*Optional*/
     table-layout: fixed; /*Optional*/
     border-spacing: 10px; /*Optional*/
+	
 }
 .Column
 {
@@ -223,12 +233,18 @@
     
 }
 
+.column {
+width: 960px;
+position: relative;
+margin:0 auto;
+line-height: 1.4em;
+}
 </style>
 	  <!-- main panel -->
    
 	  
 	  
-	<iron-ajax auto url="http://drugcomb.fimm.fi/combinations"
+	<iron-ajax auto url="http://api.drugcomb.fimm.fi/combinations"
  headers='{Access-Control-Allow-Headers: *}'
  handle-as="json"
 	  last-response="{{items}}" >
@@ -442,7 +458,7 @@ function getJSONP(url, success) {
    jQuery.ajax({ 
         type: 'GET',
 		
-       // url: 'http://drugcomb.fimm.fi/dose/2' ,
+       // url: 'http://drugcomb.fimm.fi/api/dose/2' ,
 		
 		url: url,
         dataType: 'json', 
@@ -970,7 +986,7 @@ console.log("***********************************");
 
    jQuery.ajax({ 
         type: 'GET',
-        url: 'http://drugcomb.fimm.fi/dose/2' ,
+        url: 'http://drugcomb.fimm.fi/api/dose/2' ,
         dataType: 'json', 
         success: function(data) { 
 		doses=data;
@@ -1070,7 +1086,7 @@ console.log("***********************************");
 
 
 //IDs start from 1 not zero 
-var urllink='http://drugcomb.fimm.fi/doses/'+(selectedItem.row+1);
+var urllink='http://api.drugcomb.fimm.fi/doses/'+(selectedItem.row+1);
  console.log("********DOSES**************");
 	//  console.log(url);
 	//   console.log("*******************************");

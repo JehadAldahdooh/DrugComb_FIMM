@@ -6,6 +6,8 @@
     <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
 	<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column.html">
 	<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+		<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-filter.html">
+
     <link rel="import" href="bower_components/paper-input/paper-input.html">
 	
 	<link rel="import" href="../bower_components/polymer/polymer.html">
@@ -268,13 +270,44 @@ line-height: 1.4em;
 			  <vaadin-grid-selection-column auto-select>
               </vaadin-grid-selection-column>
 
+			  <!--
               <vaadin-grid-column>
                 <template class="header">DrugA</template>
                 <template>
                   [[item.DrugA]]
                 </template>
               </vaadin-grid-column>
-
+			  -->
+			  
+			    <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="DrugA" path="DrugA" value="[[_filteraName]]">
+          <input placeholder="DrugA_Search" value="{{_filteraName::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">DrugA</template>
+                <template>
+                  [[item.DrugA]]
+                </template>
+    </vaadin-grid-column>
+			  
+			  
+			  
+			      <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="DrugB" path="DrugA" value="[[_filterbName]]">
+          <input placeholder="DrugB_Search" value="{{_filterbName::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">DrugB</template>
+                <template>
+                  [[item.DrugB]]
+                </template>
+    </vaadin-grid-column>
+			  
+			 	  
+			  
+<!--
               <vaadin-grid-column>
                 <template class="header">DrugB</template>
                 <template>
@@ -282,20 +315,53 @@ line-height: 1.4em;
                 </template>
               </vaadin-grid-column>
 
+			  -->
+			  
+			  
+			      <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="CellLine" path="CellLine" value="[[_filtercellName]]">
+          <input placeholder="CellLine_Search" value="{{_filtercellName::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">CellLine</template>
+                <template>
+                  [[item.CellLine]]
+                </template>
+    </vaadin-grid-column>
+			  
+			  <!--
               <vaadin-grid-column width="200px">
                 <template class="header">CellLine</template>
                 <template>
                   <div>[[item.CellLine]]</div>
                 </template>
               </vaadin-grid-column>
+			  -->
 			  
+			  
+			  
+			        <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="Source" path="Source" value="[[_filtersourceName]]">
+          <input placeholder="Source_Search" value="{{_filtersourceNameName::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">Source</template>
+                <template>
+                  [[item.Source]]
+                </template>
+    </vaadin-grid-column>
+	
+	
+	<!--
 			   <vaadin-grid-column width="200px">
                 <template class="header">Source</template>
                 <template>
                   <div>[[item.Source]]</div>
                 </template>
               </vaadin-grid-column>
-			  
+			-->  
 			  
             </vaadin-grid>
             <div id="pages">
@@ -772,10 +838,9 @@ Plotly.plot(y, [trace])
 
 
 
-
 var d3=[];
 
-for(i=0;i<x.length;i++)
+for(i=0;i<x_data.length;i++)
 {
 
 d3.push([x_data[i],y_data[i],z_data[i]]);
@@ -787,7 +852,7 @@ var data = [{
         }];
   
 var layout = {
-  title: 'Mt Bruno Elevation',
+  title: '3D Graph',
   autosize: false,
   width: 500,
   height: 500,
@@ -965,6 +1030,7 @@ Plotly.newPlot(y, data, layout);
 
 	
 function myFunction(x,y,z,z1) {
+
 
 var css = [];
 var zip = [];

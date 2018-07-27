@@ -295,8 +295,8 @@ line-height: 1.4em;
 			  
 			      <vaadin-grid-column>
       <template class="header">
-        <vaadin-grid-filter aria-label="DrugB" path="DrugA" value="[[_filterbName]]">
-          <input placeholder="DrugB_Search" value="{{_filterbName::input}}" focus-target>
+        <vaadin-grid-filter aria-label="DrugB" path="DrugB" value="[[_filterdrugb]]">
+          <input placeholder="DrugB_Search" value="{{_filterdrugb::input}}" focus-target>
         </vaadin-grid-filter>
       </template>
       <template class="header">DrugB</template>
@@ -320,8 +320,8 @@ line-height: 1.4em;
 			  
 			      <vaadin-grid-column>
       <template class="header">
-        <vaadin-grid-filter aria-label="CellLine" path="CellLine" value="[[_filtercellName]]">
-          <input placeholder="CellLine_Search" value="{{_filtercellName::input}}" focus-target>
+        <vaadin-grid-filter aria-label="CellLine" path="CellLine" value="[[_filtercellline]]">
+          <input placeholder="CellLine_Search" value="{{_filtercellline::input}}" focus-target>
         </vaadin-grid-filter>
       </template>
       <template class="header">CellLine</template>
@@ -344,7 +344,7 @@ line-height: 1.4em;
 			        <vaadin-grid-column>
       <template class="header">
         <vaadin-grid-filter aria-label="Source" path="Source" value="[[_filtersourceName]]">
-          <input placeholder="Source_Search" value="{{_filtersourceNameName::input}}" focus-target>
+          <input placeholder="Source_Search" value="{{_filtersourceName::input}}" focus-target>
         </vaadin-grid-filter>
       </template>
       <template class="header">Source</template>
@@ -535,7 +535,7 @@ function getJSONP(url, success) {
 	   console.log("*******************************");
 	   console.log("*******************************");
 
-console.log(data);
+        console.log(data);
       //  alert(data.DrugA);
 		draw(data,y,z,z1);
 		
@@ -556,15 +556,21 @@ function draw(data,y,z,z1){
 //alert(data[0].Response);
 
 
-console.log(data['DoseA']);
+//console.log(data['DoseA']);
 
 var x_data=[];
 var y_data=[];
 var z_data=[];
-var doseA=doseB=resA=resB=[];
+var doseA=[];
+var doseB=[];
+var resA=[];
+var resB=[];
 
-
-for(i=0;i<data.length;i++)
+console.log("length");
+console.log(data);
+if( Object.prototype.toString.call( data ) === '[object Array]' ) {
+   alert( 'Array!' );
+	for(i=0;i<data.length;i++)
 {
   x_data.push(data[i].DoseA);
   y_data.push(data[i].DoseB);
@@ -582,14 +588,23 @@ for(i=0;i<data.length;i++)
    
      doseA.push(data[i].DoseA);
 	 resA.push(data[i].Response);
+	 
+	  console.log("***********************************doseA************************");
+console.log(data[i].DoseA);
+console.log("***********************************resa************************");
+console.log(data[i].Response); 
+
 
 
    }
-   
+ 
 
+}
+	
 }
 
 
+/*
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
 }
@@ -598,14 +613,13 @@ function onlyUnique(value, index, self) {
 var doseA= doseA.filter( onlyUnique ); 
 var resA= resA.filter( onlyUnique ); 
 
+*/
 
 
 console.log("***********************************doseA************************");
-console.log(doseA);
-console.log("***********************************doseB************************");
 console.log(doseB);
-console.log("***********************************Z_DATA************************");
-console.log(z_data);
+console.log("***********************************resa************************");
+console.log(resB);
 
 
 
@@ -792,18 +806,18 @@ Plotly.newPlot(z, data,layout);
 
 var colorscale=[];
 
-console.log("**********************green*****************************");
+//console.log("**********************green*****************************");
 
 //dark to bright green
 for(i= (-100);i< -1;i++){
 
 colorscale.push([i,'rgb('+(114+i)+','+(145+i)+','+(114+i)+')']);
 
-console.log('rgb('+(114+i)+','+(145+i)+','+(114+i)+')');
+//console.log('rgb('+(114+i)+','+(145+i)+','+(114+i)+')');
 }
 
 
-console.log("**********************white*****************************");
+//console.log("**********************white*****************************");
 //white color 
 colorscale.push([0,'rgb('+(255)+','+(255)+','+(255)+')']);
 
@@ -815,7 +829,7 @@ for(i= 1;i<100;i++){
 
 colorscale.push([i,'rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')']);
 
-console.log('rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')');
+//console.log('rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')');
 }
 
 
@@ -1148,12 +1162,20 @@ console.log("***********************************");
 
 
 
+var el=sel[selectedItem.row];
 
+console.log("testttttttttttttttttttttttttttttttttttttttt");
+console.log(el);
+
+
+var blockis=el.Blockis;
 
 
 //IDs start from 1 not zero 
-var urllink='http://api.drugcomb.fimm.fi/doses/'+(selectedItem.row+1);
- console.log("********DOSES**************");
+console.log('http://api.drugcomb.fimm.fi/doses/'+blockis);
+
+var urllink='http://api.drugcomb.fimm.fi/doses/'+blockis;
+ //console.log("********DOSES**************");
 	//  console.log(url);
 	//   console.log("*******************************");
 
@@ -1165,6 +1187,7 @@ console.log("dose data test");
 });
 
 */
+
 
 fetch(urllink,y,z,z1);
 

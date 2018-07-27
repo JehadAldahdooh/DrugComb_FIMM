@@ -210,6 +210,19 @@
 	
 }
 
+ .Row
+{
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+}
+.Column
+{
+    display: table-cell;
+    
+}
+
 </style>
 	  <!-- main panel -->
    
@@ -280,6 +293,25 @@
 			<div class="column"  id="myDiv" style="background-color:; width:100%; height:80%;">
 </div>
 
+
+
+<div class="Row">
+    <div class="Column" id="left"></div>
+    <div class="Column" id="middle"></div>
+    <div class="Column" id="right"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <div class="outerDiv">
 			<div id="we" style="
 				color: #000;
@@ -295,6 +327,13 @@
 			</div>		
 			<div "style: clear:both;"></div>
 		</div>
+		
+		
+		<div class="column"  id="lastvis" style="background-color:; width:100%; height:80%;">
+</div>
+
+-->
+
   </template>
   
   	  
@@ -317,7 +356,7 @@ var doses=[];
         is: 'recipe-list',
                 _changeText: function() {
 				
-				myFunction(this.$.myDiv,this.$.we,this.$.third);
+				myFunction(this.$.myDiv,this.$.left,this.$.middle,this.$.right);
    
 	},
   properties: {
@@ -399,7 +438,7 @@ function getJSONP(url, success) {
 
 
 
-   function fetch(url,y,z){
+    function fetch(url,y,z,z1){
    jQuery.ajax({ 
         type: 'GET',
 		
@@ -416,7 +455,7 @@ function getJSONP(url, success) {
 
 console.log(data);
       //  alert(data.DrugA);
-		draw(data,y,z);
+		draw(data,y,z,z1);
 		
 
 		
@@ -425,7 +464,7 @@ console.log(data);
 
 }
 
-function draw(data,y,z){
+function draw(data,y,z,z1){
 
 
 
@@ -440,7 +479,7 @@ console.log(data['DoseA']);
 var x_data=[];
 var y_data=[];
 var z_data=[];
-var doseA=doseB=[];
+var doseA=doseB=resA=resB=[];
 
 
 for(i=0;i<data.length;i++)
@@ -449,31 +488,217 @@ for(i=0;i<data.length;i++)
   y_data.push(data[i].DoseB);
   z_data.push(data[i].Response);
    
+   
+   if(data[i].DoseA==0){
+   
+     doseB.push(data[i].DoseB);
+     resB.push(data[i].Response);
+    
+   }
+   
+  if(data[i].DoseB==0){
+   
+     doseA.push(data[i].DoseA);
+	 resA.push(data[i].Response);
+
+
+   }
+   
 
 }
 
-console.log("***********************************X_DATA************************");
-console.log(x_data);
-console.log("***********************************Y_DATA************************");
-console.log(y_data);
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+
+var doseA= doseA.filter( onlyUnique ); 
+var resA= resA.filter( onlyUnique ); 
+
+
+
+console.log("***********************************doseA************************");
+console.log(doseA);
+console.log("***********************************doseB************************");
+console.log(doseB);
 console.log("***********************************Z_DATA************************");
 console.log(z_data);
 
 
 
+
+
+
+
+
+
+/*
 var data = [
   {
-    x: x_data,
-    y: z_data,
-	mode: 'markers',
-  name: 'hv',
-  line: {shape: 'hv'},
-  type: 'scatter'
+     x: [1, 2, 3, 4],
+  y: [0.05, 0.25, 0.65, 0.85],
+  mode: 'lines+markers'
    
   }
 ];
 
-Plotly.newPlot(z, data);
+*/
+
+
+
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function drawBasic() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseA');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseA[i], resA[i]]);
+	
+var options1 = {
+          title: 'DoseA vs Response',
+          hAxis: {title: 'DoseA'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		  
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(z);
+
+       chart.draw(er,options1);
+	   
+    }
+	
+	
+	
+	
+	google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+google.charts.setOnLoadCallback(second);
+
+function drawBasic() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseA');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseA[i], resA[i]]);
+	
+var options1 = {
+          title: 'DoseA vs Response',
+          hAxis: {title: 'DoseA'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		   width: 450,
+        height: 450,
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(z);
+
+       chart.draw(er,options1);
+	   
+    }
+	
+	
+	function second() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseB');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseB[i], resB[i]]);
+	
+var options1 = {
+          title: 'DoseB vs Response',
+          hAxis: {title: 'DoseB'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		   width: 400,
+        height: 450,
+		  
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(z1);
+
+       chart.draw(er,options1);
+	   
+    }
+
+
+	
+	
+	
+	
+	
+
+	  
+	   
+	   
+	   
+	   
+/*
+//doseA doseB
+var data = [
+  {
+    x: doseA,
+    y: resA,
+	mode: 'lines+markers',
+    type: 'scatter',
+	  name: 'Team A',
+
+   
+  },
+  
+   {
+    x: doseB,
+    y: resB,
+	mode: 'lines+markers',
+    type: 'scatter',
+	  name: 'Team b',
+
+   
+  }
+  
+  
+];
+
+var layout = { 
+ 
+  title:'DoseA[], DoseB[] vs Response'
+};
+
+Plotly.newPlot(z, data,layout);
+
+
+//var data = [
+ 
+//];
+
+//Plotly.newPlot(z1, data);
+
+
+*/
 
 
 
@@ -483,12 +708,89 @@ Plotly.newPlot(z, data);
 
 
 
+var colorscale=[];
+
+console.log("**********************green*****************************");
+
+//dark to bright green
+for(i= (-100);i< -1;i++){
+
+colorscale.push([i,'rgb('+(114+i)+','+(145+i)+','+(114+i)+')']);
+
+console.log('rgb('+(114+i)+','+(145+i)+','+(114+i)+')');
+}
+
+
+console.log("**********************white*****************************");
+//white color 
+colorscale.push([0,'rgb('+(255)+','+(255)+','+(255)+')']);
+
+
+console.log("**********************red*****************************");
+
+//dark to bright red
+for(i= 1;i<100;i++){
+
+colorscale.push([i,'rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')']);
+
+console.log('rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')');
+}
+
+
+
+
+/*
+var trace = {
+  type: 'surface',
+  x: x_data,
+  y: y_data,
+  z: z_data,
+};
+
+Plotly.plot(y, [trace])
+*/
 
 
 
 
 
 
+
+
+var d3=[];
+
+for(i=0;i<x.length;i++)
+{
+
+d3.push([x_data[i],y_data[i],z_data[i]]);
+
+}
+var data = [{
+           z: d3,
+           type: 'surface'
+        }];
+  
+var layout = {
+  title: 'Mt Bruno Elevation',
+  autosize: false,
+  width: 500,
+  height: 500,
+  margin: {
+    l: 65,
+    r: 50,
+    b: 65,
+    t: 90,
+  }
+};
+Plotly.newPlot(y, data, layout);
+
+
+
+
+
+/*
+
+//console.log(colorscale[0]);
 
 var data = [{
     type: "mesh3d",
@@ -497,15 +799,64 @@ var data = [{
     z: z_data,
   
     //intensity: [0, 0.33, 0.66, 1],
-    colorscale: [
-      [0, 'rgb(255, 0, 0)'],
-      [0.5, 'rgb(0, 255, 0)'],
-      [1, 'rgb(0, 0, 255)']
-    ]
+  colorscale: 'Bluered'
+
   }
 ];
 
-Plotly.plot(y, data, {});
+Plotly.plot(y, data,{ 
+
+
+ title: 'Doses [x,y] vs Response [z]',  height: 450,
+    titlefont: {
+      family: 'Courier New, monospace',
+      size: 18,
+      color: '#7f7f7f'
+    }
+
+	
+	
+  });
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+dark green	#006400	(0,100,0)
+
+dark red rgb(139,0,0)
+
+
+
+[
+     
+      [0, 'rgb(255,255,255)'],
+      [100, 'rgb(255,0,0)']
+    ]*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -597,7 +948,7 @@ Plotly.newPlot(y, data, layout);
 }
 
 	
-function myFunction(x,y,z) {
+function myFunction(x,y,z,z1) {
 
 var css = [];
 var zip = [];
@@ -606,9 +957,9 @@ console.log("selected Items IDs");
 for(i=0;i<sel.length;i++)
 {
 console.log(sel[i].DSS);
-console.log(sel[i].Synergy_HSA);
+console.log(sel[i].Synergy_Bliss);
 css.push(sel[i].DSS);
-zip.push(sel[i].Synergy_HSA);
+zip.push(sel[i].Synergy_Bliss);
 }
 
 console.log("***********************************");
@@ -733,7 +1084,7 @@ console.log("dose data test");
 
 */
 
-fetch(urllink,y,z);
+fetch(urllink,y,z,z1);
 
 
  
@@ -855,21 +1206,31 @@ Plotly.newPlot(z, data);
 
 	}
 
-*/	
+*/
+
 	
 	
+
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-  </script>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          </script>
    <script>
          class RecipeList extends Polymer.Element {
       static get is() { return 'recipe-list'; }

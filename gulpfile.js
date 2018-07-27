@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 
+
+
 gulp.task('serve', function() {
   browserSync.init({
     server: {
@@ -8,10 +10,15 @@ gulp.task('serve', function() {
       routes: {
         '/bower_components': 'bower_components'
       }
-    }, port: 80 //change the default port fimm server
+    }, port: 11205 //change the default port fimm server
   });
 
-  gulp.watch('app/recipe-app.html').on('change', browserSync.reload);
+  gulp.watch('app/index.html').on('change', browserSync.reload);
 });
+
+
+
+
+
 
 gulp.task('default', ['serve']);

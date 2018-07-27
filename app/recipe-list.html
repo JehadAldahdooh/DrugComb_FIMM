@@ -569,7 +569,7 @@ var resB=[];
 console.log("length");
 console.log(data);
 if( Object.prototype.toString.call( data ) === '[object Array]' ) {
-   alert( 'Array!' );
+ //  alert( 'Array!' );
 	for(i=0;i<data.length;i++)
 {
   x_data.push(data[i].DoseA);
@@ -1127,7 +1127,7 @@ console.log("***********************************");
         ]);
 */
         var options = {
-          title: 'DSS vs. Synergy_HSA Drug comparison',
+          title: 'DSS vs. Synergy_BLISS Drug comparison',
 		  /*
 		  hAxis: {title: 'ZIP', minValue: 0, maxValue: 15},
           vAxis: {title: 'CSS', minValue: 0, maxValue: 15},
@@ -1135,7 +1135,7 @@ console.log("***********************************");
 		  
 		  //Max Min automatically
           hAxis: {title: 'DSS'},
-          vAxis: {title: 'Synergy_HSA'},
+          vAxis: {title: 'Synergy_BLISS'},
           legend: 'none'
         };
 

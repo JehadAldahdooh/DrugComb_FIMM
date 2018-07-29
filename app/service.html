@@ -1,0 +1,749 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+  <link rel="manifest" href="manifest.json">
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+  <!-- Promise polyfill needed for 1.0-hybrid mode since neither iron-request 2.x nor
+    webcomponentsjs 0.x include the Promise polyfill. -->
+  <script src="bower_components/es6-promise/dist/es6-promise.auto.min.js"></script>
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Raleway:400,700">
+
+  <!--
+  <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+  <link rel="import" href="recipe-app.html">
+-->
+
+<head>
+	<title>DrugComb</title>
+			  		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href='//fonts.googleapis.com/css?family=Ruluko' rel='stylesheet' type='text/css'>
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+	  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		  
+		  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+		  <script src="	https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+		  
+		    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="loader.js"></script>
+		  
+		  
+		  
+		  
+		  <style>
+		  
+		   .Row
+{
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+	
+}
+.Column
+{
+    display: table-cell;
+    
+}
+
+.column {
+width: 960px;
+position: relative;
+margin:0 auto;
+line-height: 1.4em;
+}
+		  
+		  
+	
+.flex-grid {
+  display: flex;
+}
+.flex-grid .col {
+  flex: 1;
+}
+.flex-grid-thirds {
+  display: flex;
+  justify-content: space-between;
+}
+.flex-grid-thirds .col {
+  width: 32%;
+}
+
+@media (max-width: 400px) {
+  .flex-grid,
+  .flex-grid-thirds {
+    display: block;
+    .col {
+      width: 100%;
+      margin: 0 0 10px 0;
+    }
+  }
+}
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+body {
+  padding: 20px;
+}
+.flex-grid { 
+  margin: 0 0 20px 0;
+}
+.col {
+  background: white;
+  padding: 20px;
+}
+
+.button4{
+display:inline-block;
+padding:0.7em 1.7em;
+margin:0 0.3em 0.3em 0;
+border-radius:0.2em;
+box-sizing: border-box;
+text-decoration:none;
+font-family:'Roboto',sans-serif;
+font-weight:400;
+color:black;
+background-color:#CCCCCC;
+box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
+text-align:center;
+position:relative;
+}
+		  
+		  </style>
+		  
+		  
+		  
+ <script>
+	
+	var dataSet = [
+    [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
+    [ "Garrett Winters", "Accountant", "Tokyo", "8422", "2011/07/25", "$170,750" ]
+    
+  
+];
+ 
+$(document).ready(function() {
+
+
+    var selected = [];
+
+	var oTable =$('#example').DataTable( {
+	  select: {
+            style: 'multi'
+        },
+        "ajax": {
+            "url": "http://api.drugcomb.fimm.fi/combinations",
+            "dataSrc": ""
+        },
+        "columns": [
+            { "data": "DrugA" },
+            { "data": "DrugB" },
+            { "data": "CellLine" },
+            { "data": "Source" }
+        ]
+      
+    } );
+	
+	
+	
+	
+	
+	    $('#example tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        var pos = oTable.row(this).index();
+        var row = oTable.row(pos).data();
+       // console.log(row);
+    } );
+ 
+    $('#button').click( function () {
+        var oData = oTable.rows('.selected').data();
+        
+        for (var i=0; i < oData.length ;i++){
+          console.log(oData[0]);
+		  myFunction(oData);
+        }
+        
+    } );
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function getJSONP(url, success) {
+
+    var ud = '_' + +new Date,
+        script = document.createElement('script'),
+        head = document.getElementsByTagName('head')[0] 
+               || document.documentElement;
+
+    window[ud] = function(data) {
+        head.removeChild(script);
+        success && success(data);
+    };
+
+    script.src = url.replace('callback=?', 'callback=' + ud);
+    head.appendChild(script);
+
+}
+
+
+
+    function fetch(url){
+   jQuery.ajax({ 
+        type: 'GET',
+		
+       // url: 'http://drugcomb.fimm.fi/api/dose/2' ,
+		
+		url: url,
+        dataType: 'json', 
+        success: function(data) { 
+		doses=data;
+	//console.log("doses");
+		   console.log("*******************************");
+	   console.log("*******************************");
+	   console.log("*******************************");
+
+        console.log(data);
+      //  alert(data.DrugA);
+		draw(data);
+		
+
+		
+        }
+    });
+
+}
+
+function draw(data){
+
+
+var x_data=[];
+var y_data=[];
+var z_data=[];
+var doseA=[];
+var doseB=[];
+var resA=[];
+var resB=[];
+
+console.log("length");
+console.log(data);
+if( Object.prototype.toString.call( data ) === '[object Array]' ) {
+ //  alert( 'Array!' );
+	for(i=0;i<data.length;i++)
+{
+  x_data.push(data[i].DoseA);
+  y_data.push(data[i].DoseB);
+  z_data.push(data[i].Response);
+   
+   
+   if(data[i].DoseA==0){
+   
+     doseB.push(data[i].DoseB);
+     resB.push(data[i].Response);
+    
+   }
+   
+  if(data[i].DoseB==0){
+   
+     doseA.push(data[i].DoseA);
+	 resA.push(data[i].Response);
+	 
+	  console.log("***********************************doseA************************");
+console.log(data[i].DoseA);
+console.log("***********************************resa************************");
+console.log(data[i].Response); 
+
+
+
+   }
+ 
+
+}
+	
+}
+
+
+
+console.log("***********************************doseA************************");
+console.log(doseB);
+console.log("***********************************resa************************");
+console.log(resB);
+
+
+
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function drawBasic() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseA');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseA[i], resA[i]]);
+	
+var options1 = {
+          title: 'DoseA vs Response',
+          hAxis: {title: 'DoseA'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		  
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(document.getElementById("middle"));
+
+       chart.draw(er,options1);
+	   
+    }
+	
+	
+	
+	
+	google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+google.charts.setOnLoadCallback(second);
+
+function drawBasic() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseA');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseA[i], resA[i]]);
+	
+var options1 = {
+          title: 'DoseA vs Response',
+          hAxis: {title: 'DoseA'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		   width: 450,
+        height: 450,
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(document.getElementById("middle"));
+
+       chart.draw(er,options1);
+	   
+    }
+	
+	
+	function second() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseB');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseB[i], resB[i]]);
+	
+var options1 = {
+          title: 'DoseB vs Response',
+          hAxis: {title: 'DoseB'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		   width: 400,
+        height: 450,
+		  
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(document.getElementById("right"));
+
+       chart.draw(er,options1);
+	   
+    }
+
+
+	
+var colorscale=[];
+
+//console.log("**********************green*****************************");
+
+//dark to bright green
+for(i= (-100);i< -1;i++){
+
+colorscale.push([i,'rgb('+(114+i)+','+(145+i)+','+(114+i)+')']);
+
+//console.log('rgb('+(114+i)+','+(145+i)+','+(114+i)+')');
+}
+
+
+//console.log("**********************white*****************************");
+//white color 
+colorscale.push([0,'rgb('+(255)+','+(255)+','+(255)+')']);
+
+
+console.log("**********************red*****************************");
+
+//dark to bright red
+for(i= 1;i<100;i++){
+
+colorscale.push([i,'rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')']);
+
+//console.log('rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')');
+}
+
+
+
+
+
+var d3=[];
+
+for(i=0;i<x_data.length;i++)
+{
+
+d3.push([x_data[i],y_data[i],z_data[i]]);
+
+}
+var data = [{
+           z: d3,
+           type: 'surface'
+        }];
+  
+var layout = {
+  title: '3D Graph',
+  autosize: false,
+  width: 500,
+  height: 500,
+  margin: {
+    l: 65,
+    r: 50,
+    b: 65,
+    t: 90,
+  }
+};
+Plotly.newPlot(document.getElementById("left"), data, layout);
+
+
+}
+
+	
+function myFunction(x) {
+
+
+var css = [];
+var zip = [];
+console.log("*******Scatter Plot Data************");
+console.log("selected Items IDs");
+for(i=0;i<x.length;i++)
+{
+console.log(x[i].DSS);
+console.log(x[i].Synergy_Bliss);
+css.push(x[i].DSS);
+zip.push(x[i].Synergy_Bliss);
+}
+
+console.log("***********************************");
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+	  
+
+
+      function drawChart() {
+	  
+	  	console.log("doses");
+       // console.log(doses);
+
+	    console.log("selected Items");
+	  console.log(x);
+
+
+	  
+	  
+	  
+	  
+	  
+	  
+  var er = new google.visualization.DataTable();
+  er.addColumn('number', 'css');
+  er.addColumn('number', 'zip');
+
+  for(i = 0; i < x.length; i++)
+    er.addRow([css[i], zip[i]]);
+
+
+  
+	  /*
+        var er = google.visualization.arrayToDataTable([
+          ['ZIP', 'ZIP,CSS'],
+          [ 8,      12],
+          [ 4,      5.5],
+          [ 11,     14],
+          [ 4,      5],
+          [ 3,      3.5],
+          [ 6.5,    7]
+        ]);
+*/
+        var options = {
+          title: 'DSS vs. Synergy_BLISS Drug comparison',
+		  /*
+		  hAxis: {title: 'ZIP', minValue: 0, maxValue: 15},
+          vAxis: {title: 'CSS', minValue: 0, maxValue: 15},
+		  */
+		  
+		  //Max Min automatically
+          hAxis: {title: 'DSS'},
+          vAxis: {title: 'Synergy_BLISS'},
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById("myDiv"));
+  function selectHandler() {
+    var selectedItem = chart.getSelection()[0];
+    if (selectedItem) {
+    //  var value = data.getValue(selectedItem.row, selectedItem.column);
+      //alert('The user selected ' + value);
+	  console.log("graph selected item");
+	  
+	  console.log(selectedItem.row);
+	  
+	  console.log("*******************************");
+	  console.log(er.getValue(selectedItem.row, selectedItem.column));
+
+var el=x[selectedItem.row];
+
+console.log("testttttttttttttttttttttttttttttttttttttttt");
+console.log(el);
+
+
+var blockis=el.Blockis;
+
+
+//IDs start from 1 not zero 
+console.log('http://api.drugcomb.fimm.fi/doses/'+blockis);
+
+var urllink='http://api.drugcomb.fimm.fi/doses/'+blockis;
+
+
+fetch(urllink);
+
+
+ 
+    }
+  }
+
+  // Listen for the 'select' event, and call my function selectHandler() when
+  // the user selects something on the chart.
+  google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        chart.draw(er, options);
+}
+
+}
+
+
+	 $('#example tbody').on('click', 'tr', function () {
+        var id = this.id;
+        var index = $.inArray(id, selected);
+ 
+        if ( index === -1 ) {
+            selected.push( id );
+        } else {
+            selected.splice( index, 1 );
+					//	console.log(id);
+
+        }
+ 
+        $(this).toggleClass('selected');
+    } );
+	
+	
+	
+  $("#bt1").click( function()
+           {
+             alert('button clicked');
+			 console.log(selected);
+           }
+        );
+	
+} );
+	
+</script>
+<body>
+	<div class="wrap">
+		<div class="header">
+			<div class="logo">
+				<a href="index.html">
+					<img src="images/logo.png"> </a>
+			</div>
+			<!--
+			<div class="search">
+				<form>
+					<input type="text" value="">
+					<input type="submit" value="">
+				</form>
+			</div>
+			-->
+			<div class="clear"></div>
+		</div>
+		<div class="menu">
+			<ul class="nav">
+				<li>
+					<a href="index.html" title="Home">Home</a>
+				</li>
+				<li>
+					<a href="about.html">About</a>
+				</li>
+				<li class="active">
+					<a href="service.html">Visualization</a>
+				</li>
+				<li>
+					<a href="contact.html">Contact</a>
+				</li>
+				<div class="clear"></div>
+			</ul>
+			<div class="social-icons">
+				<ul>
+					<li>
+						<a class="facebook" href="#" target="_blank"> </a>
+					</li>
+					<li>
+						<a class="twitter" href="#" target="_blank"></a>
+					</li>
+					<li>
+						<a class="googleplus" href="#" target="_blank"></a>
+					</li>
+					<li>
+						<a class="pinterest" href="#" target="_blank"></a>
+					</li>
+					<li>
+						<a class="dribbble" href="#" target="_blank"></a>
+					</li>
+					<li>
+						<a class="vimeo" href="#" target="_blank"></a>
+					</li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--main-->
+		<div class="main">
+			<div class="content1">
+				<div class="service">
+				
+				<!--
+					<h2></h2>
+					  <dom-bind>
+    <template is="dom-bind">
+
+      <iron-ajax url="data/test2.json" auto last-response="{{recipes}}"></iron-ajax>
+      <recipe-app recipes="[[recipes]]"></recipe-app>
+
+    </template>
+  </dom-bind>
+-->
+  
+ <!-- <button type="button" id="button">Test</button>  -->
+
+<button type="button" class="button4" id="button">Show Graphs</button>
+
+
+
+  <br>
+  <br>
+  
+  <table id="example" class="display" width="100%">
+  <thead>
+            <tr>
+                <th>DrugA</th>
+                <th>DrugB</th>
+                <th>CellLine</th>
+                <th>Source</th>
+            </tr>
+        </thead>
+        
+
+
+
+
+</table>
+
+
+	<div class="column"  id="myDiv" style="background-color:; width:100%; height:80%;">
+</div>
+
+
+<div class="flex-grid">
+  <div class="col" id="left"></div>
+  <div class="col" id="right"></div>
+  
+</div>
+
+<div class="flex-grid">
+  <div class="col" id="middle"></div>
+ 
+</div>
+
+  
+  
+  
+				</div>
+			</div>
+		</div>
+	
+	</div>
+</body>
+
+</html>

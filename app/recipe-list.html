@@ -1,0 +1,1359 @@
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+	    <link rel="import" href="../bower_components/polymer/polymer.html">
+
+    <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+	<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column.html">
+	<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
+		<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-filter.html">
+  <script src="grid-demo.js"></script>
+
+    <link rel="import" href="bower_components/paper-input/paper-input.html">
+	
+	<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/mercury-paginator/mercury-paginator.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-data-table/data-table-column.html">
+<link rel="import" href="../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+	
+
+<dom-module id="recipe-list">
+  <template>
+  
+	
+	
+	 <style type="custom">
+	 
+    app-header {
+      color: #fff;
+      background-color: #00AA8D;
+    }
+    app-toolbar {
+      height: 120px;
+    }
+	
+	  #pages {
+                display: flex;
+                flex-wrap: wrap;
+                margin: 20px;
+              }
+			  
+			  
+    [condensed-title] {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-image: url('//cs.uef.fi/~jehad/ntscode/images/drug-discovery-1.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 90px;
+
+      /* The difference in font size is used to calculate the scale of the title in the transition. */
+      font-size: 16px;
+    }
+
+    [main-title] {
+      position: absolute;
+      top: -120px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-image: url('//cs.uef.fi/~jehad/ntscode/images/drug-discovery-1.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 240px;
+      -webkit-transform-origin: center top !important;
+      transform-origin: center top !important;
+
+      /* The difference in font size is used to calculate the scale of the title in the transition. */
+      font-size: 32px;
+    }
+
+    .content {
+      display: block;
+      position: relative;
+      max-width: 1000px;
+      margin: 5px auto;
+    }
+
+    .card-container {
+      display: inline-block;
+      width: 33.33%;
+      color: black;
+      text-decoration: none;
+    }
+
+    paper-card {
+      display: block;
+      margin: 5px;
+
+      --paper-card-header-image: {
+        height: 200px;
+      }
+    }
+
+    paper-card h2 {
+      margin: 4px;
+      font-weight: normal;
+    }
+
+    paper-card p {
+      margin: 4px;
+      color: #999;
+    }
+
+    paper-fab {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+
+      --paper-fab-background: #EF5458;
+      --paper-fab-keyboard-focus-background: #DF4448;
+    }
+
+    @media (max-width: 960px) {
+      .content {
+        max-width: 800px;
+      }
+
+      .card-container {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 719px) {
+      app-toolbar {
+        height: 60px;
+      }
+
+      [condensed-title] {
+        background-image: url('//cs.uef.fi/~jehad/ntscode/images/drug-discovery-1.png');
+        background-size: 60px;
+      }
+
+      [main-title] {
+        top: -60px;
+        background-image: url('//cs.uef.fi/~jehad/ntscode/images/drug-discovery-1.png');
+        background-size: 90px;
+      }
+
+      .content {
+        max-width: 400px;
+      }
+
+      .card-container {
+        width: 100%;
+      }
+    }
+	
+	#grid1 data-table-row:not([header]) data-table-cell {
+              height: 60px;
+            }
+
+            #grid1 {
+              --default-primary-color: #0B4C5F;
+              font-family: 'Roboto', 'Noto', sans-serif;
+              --iron-data-table-header: {
+                background-color: #F8E0F1;
+                color: #ccc;
+                font-size: 1.2em;
+                font-weight: 400;
+              }
+              --iron-data-table-row: {
+                height: 60px;
+                align-items: center;
+              }
+              --iron-data-table-row-odd: {
+                background-color: #fff;
+              }
+              --iron-data-table-row-even: {
+                background-color: #fafafa;
+              }
+              --iron-data-table-row-hover: {
+                background-color: #eee !important;
+              }
+              --iron-data-table-row-selected: {
+                background-color: var(--default-primary-color) !important;
+                color: #fff;
+              }
+              --iron-data-table-row-after: {
+                background-color: #fff;
+                bottom: 16px;
+                content: "";
+                height: 2px;
+                left: 13px;
+                pointer-events: none;
+                position: absolute;
+                right: 0px;
+                transition: all 1s ease-in-out;
+                -webkit-transform: scaleX(0.0);
+                transform: scaleX(0.0);
+                z-index: 1;
+              }
+            }
+			
+		
+.button {
+    background-color: #F5EEF8	; /* Green */
+    float: right;
+    font-size: 15px;
+
+    border: none;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	
+}
+
+ .Row
+{
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+	
+}
+.Column
+{
+    display: table-cell;
+    
+}
+
+.column {
+width: 960px;
+position: relative;
+margin:0 auto;
+line-height: 1.4em;
+}
+</style>
+	  <!-- main panel -->
+   
+	  
+	  
+	<iron-ajax auto url="http://api.drugcomb.fimm.fi/combinations"
+ headers='{Access-Control-Allow-Headers: *}'
+ handle-as="json"
+	  last-response="{{items}}" >
+</iron-ajax>
+
+	 <paper-button id="msbutton" on-click="_changeText">
+	Show Graph
+	<template is="dom-repeat" id="test" items="[[selectedItems]]">
+        <div id="hideme" style="display: none;">{{item.CellLine}} e</div>
+    </template>
+
+	
+	
+	</paper-button>
+
+	
+	
+     <vaadin-grid id="grid" page-size="10" height-by-rows  items="[[items]]" inverted$="[[inverted]]" 
+			selected-items={{selectedItems}} active-item="{{selectedItem}}">
+
+			  <vaadin-grid-selection-column auto-select>
+              </vaadin-grid-selection-column>
+
+			  <!--
+              <vaadin-grid-column>
+                <template class="header">DrugA</template>
+                <template>
+                  [[item.DrugA]]
+                </template>
+              </vaadin-grid-column>
+			  -->
+			  
+			    <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="DrugA" path="DrugA" value="[[_filteraName]]">
+          <input placeholder="DrugA_Search" value="{{_filteraName::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">DrugA</template>
+                <template>
+                  [[item.DrugA]]
+                </template>
+    </vaadin-grid-column>
+			  
+			  
+			  
+			      <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="DrugB" path="DrugB" value="[[_filterdrugb]]">
+          <input placeholder="DrugB_Search" value="{{_filterdrugb::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">DrugB</template>
+                <template>
+                  [[item.DrugB]]
+                </template>
+    </vaadin-grid-column>
+			  
+			 	  
+			  
+<!--
+              <vaadin-grid-column>
+                <template class="header">DrugB</template>
+                <template>
+                  [[item.DrugB]]
+                </template>
+              </vaadin-grid-column>
+
+			  -->
+			  
+			  
+			      <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="CellLine" path="CellLine" value="[[_filtercellline]]">
+          <input placeholder="CellLine_Search" value="{{_filtercellline::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">CellLine</template>
+                <template>
+                  [[item.CellLine]]
+                </template>
+    </vaadin-grid-column>
+			  
+			  <!--
+              <vaadin-grid-column width="200px">
+                <template class="header">CellLine</template>
+                <template>
+                  <div>[[item.CellLine]]</div>
+                </template>
+              </vaadin-grid-column>
+			  -->
+			  
+			  
+			  
+			        <vaadin-grid-column>
+      <template class="header">
+        <vaadin-grid-filter aria-label="Source" path="Source" value="[[_filtersourceName]]">
+          <input placeholder="Source_Search" value="{{_filtersourceName::input}}" focus-target>
+        </vaadin-grid-filter>
+      </template>
+      <template class="header">Source</template>
+                <template>
+                  [[item.Source]]
+                </template>
+    </vaadin-grid-column>
+	
+	
+	<!--
+			   <vaadin-grid-column width="200px">
+                <template class="header">Source</template>
+                <template>
+                  <div>[[item.Source]]</div>
+                </template>
+              </vaadin-grid-column>
+			-->  
+			  
+            </vaadin-grid>
+            <div id="pages">
+              <button on-click="_prev">&lt;</button>
+              <template is="dom-repeat" items="[[pages]]">
+                <button  style="display:none;" on-click="_select" selected$="[[_isSelected(page, item)]]">[[item]]</button>
+              </template>
+              <button on-click="_next">&gt;</button>
+            </div>
+			
+			<div class="column"  id="myDiv" style="background-color:; width:100%; height:80%;">
+</div>
+
+
+
+<div class="Row">
+    <div class="Column" id="left"></div>
+    <div class="Column" id="middle"></div>
+    <div class="Column" id="right"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div class="outerDiv">
+			<div id="we" style="
+				color: #000;
+				height: 400px;
+				width: 50%;
+				float: left;" class="leftDiv">
+			</div>
+			<div id="third" style="
+				color: #000;
+				height: 400px;
+				width: 50%;
+				float: right;" class="rightDiv">
+			</div>		
+			<div "style: clear:both;"></div>
+		</div>
+		
+		
+		<div class="column"  id="lastvis" style="background-color:; width:100%; height:80%;">
+</div>
+
+-->
+
+  </template>
+  
+  	  
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="loader.js"></script>
+
+	
+	
+  <script>
+  var results1=[];
+  var results2=[];
+var doses=[];
+		  var sel=[];
+    document.addEventListener('WebComponentsReady', function() {
+				  'use strict';
+
+      Polymer({
+        is: 'recipe-list',
+                _changeText: function() {
+				
+				myFunction(this.$.myDiv,this.$.left,this.$.middle,this.$.right);
+   
+	},
+  properties: {
+				inverted: {
+          type: Boolean,
+          value: false
+        }, selectedItem: {
+                    type: Array,
+                }
+                ,
+                selectedItems: {
+                    type: Array,
+                },
+                  items: Array,
+                  page: Number,
+                  pages: Array
+                },
+
+        ready: function() {
+          this.page = 0;
+        },
+
+        observers: ['_itemsChanged(items, page)','_selectedItemsChanged(selectedItems.splices)'
+				],
+  _selectedItemsChanged() {
+                console.log(this.selectedItems);
+				sel=this.selectedItems;
+				
+            }
+			
+			,
+        _isSelected: function(page, item) {
+          return page === item - 1;
+        },
+
+        _select: function(e) {
+          this.page = e.model.item - 1;
+        },
+
+        _next: function() {
+          this.page = Math.min(this.pages.length - 1, this.page + 1);
+        },
+
+        _prev: function() {
+          this.page = Math.max(0, this.page - 1);
+        },
+
+        _itemsChanged: function(items, page) {
+          if (!this.pages) {
+            this.pages = Array.apply( null, {length: Math.ceil(items.length / this.$.grid.pageSize)} ).map(function(item, index) {
+              return index + 1;
+            });
+          }
+
+          var start = page * this.$.grid.pageSize;
+          var end = (page + 1) * this.$.grid.pageSize;
+          this.$.grid.items = items.slice(start, end);
+        }
+      });
+    });
+	
+	
+function getJSONP(url, success) {
+
+    var ud = '_' + +new Date,
+        script = document.createElement('script'),
+        head = document.getElementsByTagName('head')[0] 
+               || document.documentElement;
+
+    window[ud] = function(data) {
+        head.removeChild(script);
+        success && success(data);
+    };
+
+    script.src = url.replace('callback=?', 'callback=' + ud);
+    head.appendChild(script);
+
+}
+
+
+
+    function fetch(url,y,z,z1){
+   jQuery.ajax({ 
+        type: 'GET',
+		
+       // url: 'http://drugcomb.fimm.fi/api/dose/2' ,
+		
+		url: url,
+        dataType: 'json', 
+        success: function(data) { 
+		doses=data;
+	//console.log("doses");
+		   console.log("*******************************");
+	   console.log("*******************************");
+	   console.log("*******************************");
+
+        console.log(data);
+      //  alert(data.DrugA);
+		draw(data,y,z,z1);
+		
+
+		
+        }
+    });
+
+}
+
+function draw(data,y,z,z1){
+
+
+
+//alert(data[0].DoseA);
+
+//alert(data[0].DoseB);
+//alert(data[0].Response);
+
+
+//console.log(data['DoseA']);
+
+var x_data=[];
+var y_data=[];
+var z_data=[];
+var doseA=[];
+var doseB=[];
+var resA=[];
+var resB=[];
+
+console.log("length");
+console.log(data);
+if( Object.prototype.toString.call( data ) === '[object Array]' ) {
+ //  alert( 'Array!' );
+	for(i=0;i<data.length;i++)
+{
+  x_data.push(data[i].DoseA);
+  y_data.push(data[i].DoseB);
+  z_data.push(data[i].Response);
+   
+   
+   if(data[i].DoseA==0){
+   
+     doseB.push(data[i].DoseB);
+     resB.push(data[i].Response);
+    
+   }
+   
+  if(data[i].DoseB==0){
+   
+     doseA.push(data[i].DoseA);
+	 resA.push(data[i].Response);
+	 
+	  console.log("***********************************doseA************************");
+console.log(data[i].DoseA);
+console.log("***********************************resa************************");
+console.log(data[i].Response); 
+
+
+
+   }
+ 
+
+}
+	
+}
+
+
+/*
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+
+var doseA= doseA.filter( onlyUnique ); 
+var resA= resA.filter( onlyUnique ); 
+
+*/
+
+
+console.log("***********************************doseA************************");
+console.log(doseB);
+console.log("***********************************resa************************");
+console.log(resB);
+
+
+
+
+
+
+
+
+
+/*
+var data = [
+  {
+     x: [1, 2, 3, 4],
+  y: [0.05, 0.25, 0.65, 0.85],
+  mode: 'lines+markers'
+   
+  }
+];
+
+*/
+
+
+
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+
+function drawBasic() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseA');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseA[i], resA[i]]);
+	
+var options1 = {
+          title: 'DoseA vs Response',
+          hAxis: {title: 'DoseA'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		  
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(z);
+
+       chart.draw(er,options1);
+	   
+    }
+	
+	
+	
+	
+	google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+google.charts.setOnLoadCallback(second);
+
+function drawBasic() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseA');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseA[i], resA[i]]);
+	
+var options1 = {
+          title: 'DoseA vs Response',
+          hAxis: {title: 'DoseA'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		   width: 450,
+        height: 450,
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(z);
+
+       chart.draw(er,options1);
+	   
+    }
+	
+	
+	function second() {
+
+    var er = new google.visualization.DataTable();
+  er.addColumn('number', 'doseB');
+  er.addColumn('number', 'Response');
+  
+
+  for(i = 0; i < doseA.length; i++)
+    er.addRow([doseB[i], resB[i]]);
+	
+var options1 = {
+          title: 'DoseB vs Response',
+          hAxis: {title: 'DoseB'},
+          vAxis: {title: 'Response'},
+          legend: 'none',
+		   width: 400,
+        height: 450,
+		  
+        };
+
+	   
+
+      
+
+      var chart = new google.visualization.LineChart(z1);
+
+       chart.draw(er,options1);
+	   
+    }
+
+
+	
+	
+	
+	
+	
+
+	  
+	   
+	   
+	   
+	   
+/*
+//doseA doseB
+var data = [
+  {
+    x: doseA,
+    y: resA,
+	mode: 'lines+markers',
+    type: 'scatter',
+	  name: 'Team A',
+
+   
+  },
+  
+   {
+    x: doseB,
+    y: resB,
+	mode: 'lines+markers',
+    type: 'scatter',
+	  name: 'Team b',
+
+   
+  }
+  
+  
+];
+
+var layout = { 
+ 
+  title:'DoseA[], DoseB[] vs Response'
+};
+
+Plotly.newPlot(z, data,layout);
+
+
+//var data = [
+ 
+//];
+
+//Plotly.newPlot(z1, data);
+
+
+*/
+
+
+
+
+
+
+
+
+
+var colorscale=[];
+
+//console.log("**********************green*****************************");
+
+//dark to bright green
+for(i= (-100);i< -1;i++){
+
+colorscale.push([i,'rgb('+(114+i)+','+(145+i)+','+(114+i)+')']);
+
+//console.log('rgb('+(114+i)+','+(145+i)+','+(114+i)+')');
+}
+
+
+//console.log("**********************white*****************************");
+//white color 
+colorscale.push([0,'rgb('+(255)+','+(255)+','+(255)+')']);
+
+
+console.log("**********************red*****************************");
+
+//dark to bright red
+for(i= 1;i<100;i++){
+
+colorscale.push([i,'rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')']);
+
+//console.log('rgb('+(255-16-i)+','+(255-129-i)+','+(255-129-i)+')');
+}
+
+
+
+
+/*
+var trace = {
+  type: 'surface',
+  x: x_data,
+  y: y_data,
+  z: z_data,
+};
+
+Plotly.plot(y, [trace])
+*/
+
+
+
+
+
+
+
+var d3=[];
+
+for(i=0;i<x_data.length;i++)
+{
+
+d3.push([x_data[i],y_data[i],z_data[i]]);
+
+}
+var data = [{
+           z: d3,
+           type: 'surface'
+        }];
+  
+var layout = {
+  title: '3D Graph',
+  autosize: false,
+  width: 500,
+  height: 500,
+  margin: {
+    l: 65,
+    r: 50,
+    b: 65,
+    t: 90,
+  }
+};
+Plotly.newPlot(y, data, layout);
+
+
+
+
+
+/*
+
+//console.log(colorscale[0]);
+
+var data = [{
+    type: "mesh3d",
+    x: x_data,
+    y: y_data,
+    z: z_data,
+  
+    //intensity: [0, 0.33, 0.66, 1],
+  colorscale: 'Bluered'
+
+  }
+];
+
+Plotly.plot(y, data,{ 
+
+
+ title: 'Doses [x,y] vs Response [z]',  height: 450,
+    titlefont: {
+      family: 'Courier New, monospace',
+      size: 18,
+      color: '#7f7f7f'
+    }
+
+	
+	
+  });
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+dark green	#006400	(0,100,0)
+
+dark red rgb(139,0,0)
+
+
+
+[
+     
+      [0, 'rgb(255,255,255)'],
+      [100, 'rgb(255,0,0)']
+    ]*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+//heatmap
+var data = [
+  {
+    z: z_data,
+    x: x_data,
+    y: y_data,
+    type: 'heatmap',
+	  colorscale: [
+      [0, 'rgb(255, 0, 0)'],
+      [0.5, 'rgb(0, 255, 0)'],
+      [1, 'rgb(0, 0, 255)']
+    ]
+  }
+];
+
+Plotly.newPlot(z, data);
+*/
+
+/*
+var data=[
+    {
+      opacity:0.8,
+      color:'rgb(300,100,200)',
+      type: 'mesh3d',
+      x: x_data,
+      y: y_data,
+      z: z_data,
+    }
+];
+Plotly.newPlot(y, data);
+
+
+*/
+
+
+
+/*
+var data_z1 = {x: x_data, type: 'surface'};
+var data_z2 = {y: y_data,  type: 'surface'};
+var data_z3 = {z: z_data,  type: 'surface'};
+
+
+
+Plotly.newPlot(y, [data_z1, data_z2, data_z3]);
+
+*/
+
+
+/*
+Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv', function(err, rows){
+function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+}
+  
+var z_data=[ ]
+for(i=0;i<24;i++)
+{
+  z_data.push(unpack(rows,i));
+}
+
+var data = [{
+           z: z_data,
+           type: 'surface'
+        }];
+  
+var layout = {
+  title: '3D Drug Visualization',
+  autosize: false,
+  width: 500,
+  height: 500,
+  margin: {
+    l: 65,
+    r: 50,
+    b: 65,
+    t: 90,
+  }
+};
+
+Plotly.newPlot(y, data, layout);
+});  
+*/
+
+
+
+}
+
+	
+function myFunction(x,y,z,z1) {
+
+
+var css = [];
+var zip = [];
+console.log("*******Scatter Plot Data************");
+console.log("selected Items IDs");
+for(i=0;i<sel.length;i++)
+{
+console.log(sel[i].DSS);
+console.log(sel[i].Synergy_Bliss);
+css.push(sel[i].DSS);
+zip.push(sel[i].Synergy_Bliss);
+}
+
+console.log("***********************************");
+
+
+/*
+ $(document).ready(function() {
+
+   jQuery.ajax({ 
+        type: 'GET',
+        url: 'http://drugcomb.fimm.fi/api/dose/2' ,
+        dataType: 'json', 
+        success: function(data) { 
+		doses=data;
+	//	console.log("doses");
+//console.log(doses);
+         //   alert(data.id);
+        }
+    });})
+
+*/
+
+
+	
+//console.log("doses");
+//console.log(doses);
+
+//console.log("selected items");
+//console.log(sel);
+  google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+	  
+
+
+      function drawChart() {
+	  
+	  	console.log("doses");
+        console.log(doses);
+
+	    console.log("selected Items");
+	  console.log(sel);
+
+
+	  
+	  
+	  
+	  
+	  
+	  
+  var er = new google.visualization.DataTable();
+  er.addColumn('number', 'css');
+  er.addColumn('number', 'zip');
+
+  for(i = 0; i < sel.length; i++)
+    er.addRow([css[i], zip[i]]);
+
+
+  
+	  /*
+        var er = google.visualization.arrayToDataTable([
+          ['ZIP', 'ZIP,CSS'],
+          [ 8,      12],
+          [ 4,      5.5],
+          [ 11,     14],
+          [ 4,      5],
+          [ 3,      3.5],
+          [ 6.5,    7]
+        ]);
+*/
+        var options = {
+          title: 'DSS vs. Synergy_BLISS Drug comparison',
+		  /*
+		  hAxis: {title: 'ZIP', minValue: 0, maxValue: 15},
+          vAxis: {title: 'CSS', minValue: 0, maxValue: 15},
+		  */
+		  
+		  //Max Min automatically
+          hAxis: {title: 'DSS'},
+          vAxis: {title: 'Synergy_BLISS'},
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(x);
+  function selectHandler() {
+    var selectedItem = chart.getSelection()[0];
+    if (selectedItem) {
+    //  var value = data.getValue(selectedItem.row, selectedItem.column);
+      //alert('The user selected ' + value);
+	  console.log("graph selected item");
+	  
+	  console.log(selectedItem.row);
+	  
+	  console.log("*******************************");
+	  console.log(er.getValue(selectedItem.row, selectedItem.column));
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+
+
+
+
+var el=sel[selectedItem.row];
+
+console.log("testttttttttttttttttttttttttttttttttttttttt");
+console.log(el);
+
+
+var blockis=el.Blockis;
+
+
+//IDs start from 1 not zero 
+console.log('http://api.drugcomb.fimm.fi/doses/'+blockis);
+
+var urllink='http://api.drugcomb.fimm.fi/doses/'+blockis;
+ //console.log("********DOSES**************");
+	//  console.log(url);
+	//   console.log("*******************************");
+
+
+	/*
+getJSONP(urllink, function(data){
+console.log("dose data test");
+    console.log(JSON.decode(data));
+});
+
+*/
+
+
+fetch(urllink,y,z,z1);
+
+
+ 
+    }
+  }
+
+  // Listen for the 'select' event, and call my function selectHandler() when
+  // the user selects something on the chart.
+  google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        chart.draw(er, options);
+}
+
+}
+
+
+
+
+
+
+/*
+
+var para = document.createElement("p");
+var node = document.createTextNode("This is new.");
+para.appendChild(node);
+y.appendChild(para);
+
+			   console.log("sdsdsdsdssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+			   console.log(sel);
+	var trace1 = {
+//////////////data for scatter plot/////////////////////////
+  x: [1,1, 2, 3, 4, 5],
+  y: [1,6,6, 3, 6, 1],
+ 
+ 
+  mode: 'markers',
+  type: 'scatter',
+  name: 'Team A',
+  //text: ['A-1', 'A-2', 'A-3', 'A-4', 'A-5'],
+  marker: { size: 12 }
+};
+
+var data = [trace1];
+var layout = { 
+hovermode:'closest',
+
+  xaxis: {
+	   title: 'ZIP',
+	  // if you no specifi range mentioned, it means automatic range according to data
+      // range: [ 0.75, 5.25 ] 
+  },
+  yaxis: {
+	   title: 'CSS',
+    //range: [0, 8]
+  },
+  title:'Selected Drugs'
+};
+console.log("Which one is selected :)");
+Plotly.newPlot(x,data, layout);
+
+var myPlot = x;
+myPlot.on('plotly_click', function(data){
+  var pn='',
+      tn='',
+      colors=[];
+	  console.log(data.points);
+	  
+	
+//////////////data for 3D plot/////////////////////////
+Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv', function(err, rows){
+function unpack(rows, key) {
+  return rows.map(function(row) { return row[key]; });
+}
+  
+var z_data=[ ]
+for(i=0;i<24;i++)
+{
+  z_data.push(unpack(rows,i));
+}
+
+var data = [{
+           z: z_data,
+           type: 'surface'
+        }];
+  
+var layout = {
+  title: '3D Drug Visualization',
+  autosize: false,
+  width: 500,
+  height: 500,
+  margin: {
+    l: 65,
+    r: 50,
+    b: 65,
+    t: 90,
+  }
+};
+
+Plotly.newPlot(y, data, layout);
+});  
+
+
+
+//////////////data for heatmap plot/////////////////////////
+
+var data = [
+  {
+    z: [[1, 20, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
+    x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    y: ['Morning', 'Afternoon', 'Evening'],
+    type: 'heatmap'
+  }
+];
+
+Plotly.newPlot(z, data);
+ 
+});
+	
+
+	}
+
+*/
+
+	
+	
+
+
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+          </script>
+   <script>
+         class RecipeList extends Polymer.Element{
+      static get is() { return 'recipe-list'; }
+
+      
+
+      
+    }
+
+    window.customElements.define(RecipeList.is, RecipeList);
+
+  </script>
+    </script>
+  
+  
+</dom-module>
+
+  

@@ -7,6 +7,7 @@
 	<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column.html">
 	<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-selection-column.html">
 		<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-filter.html">
+  <script src="grid-demo.js"></script>
 
     <link rel="import" href="bower_components/paper-input/paper-input.html">
 	
@@ -434,6 +435,8 @@ line-height: 1.4em;
 var doses=[];
 		  var sel=[];
     document.addEventListener('WebComponentsReady', function() {
+				  'use strict';
+
       Polymer({
         is: 'recipe-list',
                 _changeText: function() {
@@ -1337,7 +1340,7 @@ Plotly.newPlot(z, data);
 		
           </script>
    <script>
-         class RecipeList extends Polymer.Element {
+         class RecipeList extends Polymer.Element{
       static get is() { return 'recipe-list'; }
 
       
@@ -1345,7 +1348,7 @@ Plotly.newPlot(z, data);
       
     }
 
-    window.customElements.define(RecipeList, RecipeList);
+    window.customElements.define(RecipeList.is, RecipeList);
 
   </script>
     </script>
